@@ -14,7 +14,7 @@ export class PdfTextService {
     const parser = new PDFParse({ data: file.buffer });
     try {
       const result = await parser.getText();
-      const text = result.text.replace(/\u0000/g, '').trim();
+      const text = result.text.split('\u0000').join('').trim();
       if (text.length < 50) {
         throw new BadRequestException(
           'No readable text was found. Please upload a text-based PDF.',

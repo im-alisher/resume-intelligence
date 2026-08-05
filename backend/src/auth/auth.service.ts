@@ -9,6 +9,8 @@ import { UsersService } from '../users/users.service';
 import { LoginDto } from './dto/login.dto';
 import { RegisterDto } from './dto/register.dto';
 
+type PublicUser = Awaited<ReturnType<UsersService['create']>>;
+
 @Injectable()
 export class AuthService {
   constructor(
@@ -23,7 +25,7 @@ export class AuthService {
     }
 
     const passwordHash = await bcrypt.hash(input.password, 12);
-    let user;
+    let user: PublicUser;
     try {
       user = await this.usersService.create({
         email: input.email,

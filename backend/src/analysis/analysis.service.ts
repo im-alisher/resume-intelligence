@@ -1,5 +1,4 @@
 import { Injectable } from '@nestjs/common';
-import type { Prisma } from '../generated/prisma/client';
 import { AiService } from '../ai/ai.service';
 import type { ResumeAnalysisResult } from '../ai/resume-analysis.schema';
 import { PrismaService } from '../database/prisma.service';
@@ -29,7 +28,7 @@ export class AnalysisService {
         jobDescription,
         overallScore: result.overallScore,
         atsScore: result.atsScore,
-        result: result as Prisma.InputJsonValue,
+        result: result,
       },
     });
 

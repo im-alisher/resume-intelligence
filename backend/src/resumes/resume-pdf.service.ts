@@ -205,9 +205,7 @@ export class ResumePdfService {
 }
 
 function asPersonalInfo(value: unknown): PersonalInfo {
-  return typeof value === 'object' && value !== null
-    ? (value as PersonalInfo)
-    : {};
+  return typeof value === 'object' && value !== null ? value : {};
 }
 
 function formatDate(value: Date | null): string {

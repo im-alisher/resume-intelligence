@@ -45,6 +45,16 @@ npm run db:studio    # Open the Prisma database browser
 
 The initial migration is committed under `backend/prisma/migrations`. Production environments should apply committed migrations with `npm run prisma:deploy --workspace backend`.
 
+### Authentication API
+
+The backend exposes JWT authentication under `/api/auth`:
+
+- `POST /register` creates an account and returns an access token.
+- `POST /login` verifies credentials and returns an access token.
+- `GET /me` returns the current user and requires `Authorization: Bearer <token>`.
+
+Set a random `JWT_SECRET` containing at least 32 characters before starting the backend.
+
 ## Environment configuration
 
 Copy `.env.example` to `.env` for local development. Frontend variables must use the `VITE_` prefix and must never contain secrets. LLM credentials and prompts will remain exclusively in the backend.

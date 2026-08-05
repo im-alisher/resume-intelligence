@@ -55,6 +55,15 @@ The backend exposes JWT authentication under `/api/auth`:
 
 Set a random `JWT_SECRET` containing at least 32 characters before starting the backend.
 
+### Public resume analyzer
+
+`POST /api/analysis/resume` accepts multipart form data without authentication:
+
+- `resume`: required text-based PDF, maximum 5 MB
+- `jobDescription`: optional text, maximum 12,000 characters
+
+The backend extracts PDF text in memory and sends it to Groq using the model configured by `GROQ_MODEL`. Set `GROQ_API_KEY` only in the backend environment. Raw PDFs and extracted resume text are not persisted; only the structured analysis result and basic request metadata are stored.
+
 ## Environment configuration
 
 Copy `.env.example` to `.env` for local development. Frontend variables must use the `VITE_` prefix and must never contain secrets. LLM credentials and prompts will remain exclusively in the backend.

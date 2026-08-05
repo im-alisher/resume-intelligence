@@ -66,22 +66,29 @@ type ApiResume = Omit<Resume, 'experiences' | 'education' | 'certifications'> & 
 function toApiResume(input: ResumeForm) {
   const cleanOptional = (value?: string) => value?.trim() || undefined
   return {
-    ...input,
     title: input.title.trim() || 'Untitled Resume',
     summary: cleanOptional(input.summary),
+    skills: input.skills,
     personalInfo: {
-      ...input.personalInfo,
+      fullName: input.personalInfo.fullName,
+      email: input.personalInfo.email,
+      phone: input.personalInfo.phone,
+      location: input.personalInfo.location,
       website: cleanOptional(input.personalInfo.website),
       linkedin: cleanOptional(input.personalInfo.linkedin),
     },
     experiences: input.experiences.map((item) => ({
-      ...item,
+      company: item.company,
+      position: item.position,
       location: cleanOptional(item.location),
       startDate: toApiDate(item.startDate),
       endDate: item.isCurrent ? undefined : toApiDate(item.endDate),
+      isCurrent: item.isCurrent,
+      accomplishments: item.accomplishments,
     })),
     education: input.education.map((item) => ({
-      ...item,
+      institution: item.institution,
+      degree: item.degree,
       field: cleanOptional(item.field),
       location: cleanOptional(item.location),
       description: cleanOptional(item.description),
@@ -89,11 +96,14 @@ function toApiResume(input: ResumeForm) {
       endDate: toApiDate(item.endDate),
     })),
     projects: input.projects.map((item) => ({
-      ...item,
+      name: item.name,
+      description: item.description,
       url: cleanOptional(item.url),
+      technologies: item.technologies,
     })),
     certifications: input.certifications.map((item) => ({
-      ...item,
+      name: item.name,
+      issuingOrg: item.issuingOrg,
       credentialUrl: cleanOptional(item.credentialUrl),
       issueDate: toApiDate(item.issueDate),
       expirationDate: toApiDate(item.expirationDate),

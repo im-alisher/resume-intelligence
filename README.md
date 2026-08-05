@@ -76,6 +76,18 @@ Authenticated resume management is available under `/api/resumes`:
 
 All endpoints require a bearer token and return `404` for resumes not owned by the authenticated user.
 
+### AI resume improvements
+
+Authenticated users can request previewable AI suggestions under `/api/resumes/:id/improvements`:
+
+- `POST /summary` improves the professional summary.
+- `POST /experience` rewrites achievement bullets.
+- `POST /skills` recommends supported skills and identifies gaps.
+- `POST /ats` reviews ATS readiness against an optional job description.
+- `POST /description` improves a project or experience description.
+
+AI responses do not modify stored resumes automatically. The builder lets users review, accept, and then save suggestions.
+
 ## Environment configuration
 
 Copy `.env.example` to `.env` for local development. Frontend variables must use the `VITE_` prefix and must never contain secrets. LLM credentials and prompts will remain exclusively in the backend.

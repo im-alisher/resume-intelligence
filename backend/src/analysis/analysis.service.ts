@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import type { Prisma } from '../../generated/prisma/client';
+import type { Prisma } from '../generated/prisma/client';
 import { AiService } from '../ai/ai.service';
 import type { ResumeAnalysisResult } from '../ai/resume-analysis.schema';
 import { PrismaService } from '../database/prisma.service';

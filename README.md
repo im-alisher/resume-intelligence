@@ -21,16 +21,29 @@ resume-intelligence/
 
 ## Local development
 
-Prerequisites: Node.js 22 or newer and npm 11 or newer.
+Prerequisites: Node.js 22 or newer, npm 11 or newer, and Docker Desktop.
 
 ```bash
 npm install
 cp .env.example .env
+npm run db:generate
+docker compose up -d postgres
+npm run db:migrate
 npm run dev:frontend
 npm run dev:backend
 ```
 
-The frontend runs at `http://localhost:5173`. The backend runs at `http://localhost:3000/api`.
+The frontend runs at `http://localhost:5173`. The backend runs at `http://localhost:3000/api`, and PostgreSQL is exposed on port `5432` by default.
+
+### Database commands
+
+```bash
+npm run db:generate  # Generate the typed Prisma client
+npm run db:migrate   # Create or apply development migrations
+npm run db:studio    # Open the Prisma database browser
+```
+
+The initial migration is committed under `backend/prisma/migrations`. Production environments should apply committed migrations with `npm run prisma:deploy --workspace backend`.
 
 ## Environment configuration
 

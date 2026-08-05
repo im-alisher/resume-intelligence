@@ -1,0 +1,120 @@
+generator client {
+  provider     = "prisma-client"
+  output       = "../generated/prisma"
+  moduleFormat = "cjs"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum ResumeStatus {
+  DRAFT
+  PUBLISHED
+  ARCHIVED
+}
+
+model User {
+  id           String   @id @default(uuid()) @db.Uuid
+  email        String   @unique
+  passwordHash String
+  firstName    String?
+  lastName     String?
+  resumes      Resume[]
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
+
+model Resume {
+  id             String           @id @default(uuid()) @db.Uuid
+  userId         String           @db.Uuid
+  user           User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  title          String
+  status         ResumeStatus     @default(DRAFT)
+  template       String           @default("professional")
+  personalInfo   Json
+  summary        String?
+  skills         String[]
+  experiences    Experience[]
+  education      Education[]
+  projects       Project[]
+  certifications Certification[]
+  analyses       ResumeAnalysis[]
+  createdAt      DateTime         @default(now())
+  updatedAt      DateTime         @updatedAt
+
+  @@index([userId])
+}
+
+model Experience {
+  id              String    @id @default(uuid()) @db.Uuid
+  resumeId        String    @db.Uuid
+  resume          Resume    @relation(fields: [resumeId], references: [id], onDelete: Cascade)
+  company         String
+  position        String
+  location        String?
+  startDate       DateTime
+  endDate         DateTime?
+  isCurrent       Boolean   @default(false)
+  accomplishments String[]
+  sortOrder       Int       @default(0)
+
+  @@index([resumeId])
+}
+
+model Education {
+  id          String    @id @default(uuid()) @db.Uuid
+  resumeId    String    @db.Uuid
+  resume      Resume    @relation(fields: [resumeId], references: [id], onDelete: Cascade)
+  institution String
+  degree      String
+  field       String?
+  location    String?
+  startDate   DateTime?
+  endDate     DateTime?
+  description String?
+  sortOrder   Int       @default(0)
+
+  @@index([resumeId])
+}
+
+model Project {
+  id           String   @id @default(uuid()) @db.Uuid
+  resumeId     String   @db.Uuid
+  resume       Resume   @relation(fields: [resumeId], references: [id], onDelete: Cascade)
+  name         String
+  description  String
+  url          String?
+  technologies String[]
+  sortOrder    Int      @default(0)
+
+  @@index([resumeId])
+}
+
+model Certification {
+  id             String    @id @default(uuid()) @db.Uuid
+  resumeId       String    @db.Uuid
+  resume         Resume    @relation(fields: [resumeId], references: [id], onDelete: Cascade)
+  name           String
+  issuingOrg     String
+  issueDate      DateTime?
+  expirationDate DateTime?
+  credentialUrl  String?
+  sortOrder      Int       @default(0)
+
+  @@index([resumeId])
+}
+
+model ResumeAnalysis {
+  id             String   @id @default(uuid()) @db.Uuid
+  resumeId       String?  @db.Uuid
+  resume         Resume?  @relation(fields: [resumeId], references: [id], onDelete: Cascade)
+  sourceFileName String?
+  jobDescription String?
+  overallScore   Int
+  atsScore       Int
+  result         Json
+  createdAt      DateTime @default(now())
+
+  @@index([resumeId])
+}

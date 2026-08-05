@@ -10,7 +10,10 @@
     "dev:frontend": "npm run dev --workspace frontend",
     "dev:backend": "npm run start:dev --workspace backend",
     "build": "npm run build --workspace frontend && npm run build --workspace backend",
-    "test": "npm run test --workspace backend -- --runInBand"
+    "test": "npm run test --workspace backend -- --runInBand",
+    "db:generate": "npm run prisma:generate --workspace backend",
+    "db:migrate": "npm run prisma:migrate --workspace backend",
+    "db:studio": "npm run prisma:studio --workspace backend"
   },
   "engines": {
     "node": ">=22"

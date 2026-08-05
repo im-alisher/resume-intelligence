@@ -88,6 +88,10 @@ Authenticated users can request previewable AI suggestions under `/api/resumes/:
 
 AI responses do not modify stored resumes automatically. The builder lets users review, accept, and then save suggestions.
 
+### Resume PDF export
+
+`GET /api/resumes/:id/export/pdf` generates and downloads an owned resume as an A4 PDF. The endpoint requires a bearer token, enforces resume ownership, and renders the saved personal information, summary, skills, experience, education, projects, and certifications.
+
 ## Environment configuration
 
 Copy `.env.example` to `.env` for local development. Frontend variables must use the `VITE_` prefix and must never contain secrets. LLM credentials and prompts will remain exclusively in the backend.

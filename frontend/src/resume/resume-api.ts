@@ -1,4 +1,4 @@
-import { apiRequest } from '../lib/api'
+import { API_URL, ApiError, apiRequest } from '../lib/api'
 import type { Resume, ResumeForm, ResumeListItem } from './resume-types'
 
 export const resumeKeys = {
@@ -32,6 +32,29 @@ export function updateResume(token: string, id: string, input: ResumeForm) {
 
 export function deleteResume(token: string, id: string) {
   return apiRequest<void>(`/resumes/${id}`, { method: 'DELETE' }, token)
+}
+
+export async function downloadResumePdf(
+  token: string,
+  id: string,
+  title: string,
+): Promise<void> {
+  const response = await fetch(`${API_URL}/resumes/${id}/export/pdf`, {
+    headers: { Authorization: `Bearer ${token}` },
+  })
+  if (!response.ok) {
+    const body = (await response.json().catch(() => ({}))) as { message?: string }
+    throw new ApiError(body.message ?? 'Unable to export this resume', response.status)
+  }
+  const blob = await response.blob()
+  const url = URL.createObjectURL(blob)
+  const anchor = document.createElement('a')
+  anchor.href = url
+  anchor.download = `${safeFileName(title) || 'resume'}.pdf`
+  document.body.appendChild(anchor)
+  anchor.click()
+  anchor.remove()
+  URL.revokeObjectURL(url)
 }
 
 type ApiResume = Omit<Resume, 'experiences' | 'education' | 'certifications'> & {
@@ -112,4 +135,8 @@ function toApiDate(value?: string): string | undefined {
 
 function toMonth(value?: string | null): string {
   return value ? value.slice(0, 7) : ''
+}
+
+function safeFileName(value: string): string {
+  return value.trim().replace(/[^a-z0-9-_]+/gi, '-').replace(/^-+|-+$/g, '').slice(0, 80)
 }

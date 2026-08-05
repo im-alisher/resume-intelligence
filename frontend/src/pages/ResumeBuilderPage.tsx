@@ -11,7 +11,12 @@ import {
   rewriteExperience,
   suggestSkills,
 } from '../resume/improvement-api'
-import { getResume, resumeKeys, updateResume } from '../resume/resume-api'
+import {
+  downloadResumePdf,
+  getResume,
+  resumeKeys,
+  updateResume,
+} from '../resume/resume-api'
 import {
   blankCertification,
   blankEducation,
@@ -43,6 +48,8 @@ export function ResumeBuilderPage() {
   const [aiLoading, setAiLoading] = useState<string | null>(null)
   const [aiError, setAiError] = useState<string | null>(null)
   const [suggestion, setSuggestion] = useState<AiSuggestion | null>(null)
+  const [isExporting, setIsExporting] = useState(false)
+  const [exportError, setExportError] = useState<string | null>(null)
 
   useEffect(() => {
     if (resumeQuery.data) setForm(resumeQuery.data)
@@ -86,6 +93,23 @@ export function ResumeBuilderPage() {
     setSuggestion(null)
   }
 
+  async function handleExport() {
+    setIsExporting(true)
+    setExportError(null)
+    try {
+      const saved = await saveMutation.mutateAsync()
+      await downloadResumePdf(token!, resumeId, saved.title)
+    } catch (error) {
+      setExportError(
+        error instanceof ApiError
+          ? error.message
+          : 'Unable to generate the PDF. Please try again.',
+      )
+    } finally {
+      setIsExporting(false)
+    }
+  }
+
   return (
     <main className="min-h-screen bg-slate-950 text-white">
       <header className="sticky top-0 z-20 border-b border-slate-800 bg-slate-950/95 px-4 py-3 backdrop-blur sm:px-6">
@@ -96,7 +120,10 @@ export function ResumeBuilderPage() {
           </div>
           <div className="flex items-center gap-3">
             {savedAt && <span className="hidden text-xs text-slate-500 sm:inline">Saved {savedAt.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>}
-            <button onClick={() => saveMutation.mutate()} disabled={saveMutation.isPending} className="rounded-lg bg-cyan-400 px-5 py-2.5 text-sm font-semibold text-slate-950 hover:bg-cyan-300 disabled:opacity-50">
+            <button onClick={() => void handleExport()} disabled={isExporting || saveMutation.isPending} className="rounded-lg border border-slate-600 px-4 py-2.5 text-sm font-semibold text-slate-200 hover:bg-slate-900 disabled:opacity-50">
+              {isExporting ? 'Generating…' : 'Download PDF'}
+            </button>
+            <button onClick={() => saveMutation.mutate()} disabled={saveMutation.isPending || isExporting} className="rounded-lg bg-cyan-400 px-5 py-2.5 text-sm font-semibold text-slate-950 hover:bg-cyan-300 disabled:opacity-50">
               {saveMutation.isPending ? 'Saving…' : 'Save resume'}
             </button>
           </div>
@@ -104,6 +131,7 @@ export function ResumeBuilderPage() {
       </header>
 
       {saveError && <div className="mx-auto mt-4 max-w-[1600px] px-4 text-sm text-red-300 sm:px-6">{saveError}</div>}
+      {exportError && <div className="mx-auto mt-4 max-w-[1600px] px-4 text-sm text-red-300 sm:px-6">{exportError}</div>}
       <div className="mx-auto grid max-w-[1600px] gap-6 px-4 py-6 lg:grid-cols-[minmax(400px,0.9fr)_minmax(500px,1.1fr)] lg:px-6">
         <div className="space-y-5">
           <EditorSection title="AI Resume Coach">

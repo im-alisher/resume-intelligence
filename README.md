@@ -64,6 +64,18 @@ Set a random `JWT_SECRET` containing at least 32 characters before starting the 
 
 The backend extracts PDF text in memory and sends it to Groq using the model configured by `GROQ_MODEL`. Set `GROQ_API_KEY` only in the backend environment. Raw PDFs and extracted resume text are not persisted; only the structured analysis result and basic request metadata are stored.
 
+### Resume builder API
+
+Authenticated resume management is available under `/api/resumes`:
+
+- `GET /` lists the current user's resumes.
+- `POST /` creates a resume.
+- `GET /:id` returns an owned resume with all sections.
+- `PUT /:id` saves the complete builder state.
+- `DELETE /:id` permanently removes an owned resume.
+
+All endpoints require a bearer token and return `404` for resumes not owned by the authenticated user.
+
 ## Environment configuration
 
 Copy `.env.example` to `.env` for local development. Frontend variables must use the `VITE_` prefix and must never contain secrets. LLM credentials and prompts will remain exclusively in the backend.

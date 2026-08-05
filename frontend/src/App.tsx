@@ -4,6 +4,7 @@ import { useAuth } from './auth/auth-context'
 import { AuthPage } from './pages/AuthPage'
 import { AnalyzerPage } from './pages/AnalyzerPage'
 import { DashboardPage } from './pages/DashboardPage'
+import { ResumeBuilderPage } from './pages/ResumeBuilderPage'
 
 function HomePage() {
   const { user } = useAuth()
@@ -61,6 +62,7 @@ export default function App() {
       <Route path="/analyze" element={<AnalyzerPage />} />
       <Route element={<ProtectedRoute />}>
         <Route path="/dashboard" element={<DashboardPage />} />
+        <Route path="/resumes/:resumeId" element={<ResumeBuilderPage />} />
       </Route>
     </Routes>
   )

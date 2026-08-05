@@ -53,7 +53,7 @@ model Experience {
   company         String
   position        String
   location        String?
-  startDate       DateTime
+  startDate       DateTime?
   endDate         DateTime?
   isCurrent       Boolean   @default(false)
   accomplishments String[]

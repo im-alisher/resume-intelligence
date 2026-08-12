@@ -90,36 +90,36 @@ export function AnalyzerPage() {
   return (
     <main className="relative min-h-screen overflow-hidden bg-[#050816] text-white">
       <div className="pointer-events-none absolute inset-x-0 top-0 h-[620px] bg-[radial-gradient(circle_at_50%_0%,rgba(34,211,238,0.12),transparent_58%)]" />
-      <div className="relative mx-auto max-w-7xl px-5 py-7 sm:px-8">
+      <div className="relative mx-auto max-w-7xl px-5 py-4 sm:px-8">
         {!analysis.isPending && <>
-        <header className="flex items-center justify-between border-b border-white/5 pb-5">
+        <header className="flex items-center justify-between border-b border-white/5 pb-3">
           <Link to="/" className="flex items-center gap-3 font-bold text-white">
-            <span className="grid size-9 place-items-center rounded-xl bg-cyan-400 text-sm text-slate-950 shadow-lg shadow-cyan-400/20">RI</span>
+            <span className="grid size-8 place-items-center rounded-lg bg-cyan-400 text-xs text-slate-950 shadow-lg shadow-cyan-400/20">RI</span>
             <span>Resume Intelligence</span>
           </Link>
-          <Link to="/dashboard" className="rounded-xl border border-white/10 bg-white/5 px-4 py-2.5 text-sm font-semibold text-slate-200 transition hover:border-cyan-400/40 hover:bg-cyan-400/10 hover:text-cyan-200">
+          <Link to="/dashboard" className="rounded-lg border border-white/10 bg-white/5 px-4 py-2 text-sm font-semibold text-slate-200 transition hover:border-cyan-400/40 hover:bg-cyan-400/10 hover:text-cyan-200">
             Build a resume <span aria-hidden="true">→</span>
           </Link>
         </header>
 
-        <section className="mx-auto max-w-2xl pb-7 pt-10 text-center sm:pt-12">
-          <span className="inline-flex items-center gap-2 rounded-full border border-cyan-400/20 bg-cyan-400/10 px-4 py-2 text-xs font-bold uppercase tracking-[0.18em] text-cyan-200">
+        <section className="mx-auto max-w-2xl pb-5 pt-5 text-center sm:pt-6">
+          <span className="inline-flex items-center gap-2 rounded-full border border-cyan-400/20 bg-cyan-400/10 px-3 py-1.5 text-[10px] font-bold uppercase tracking-[0.18em] text-cyan-200">
             <span className="size-1.5 rounded-full bg-cyan-300 shadow-[0_0_10px_#67e8f9]" />
             Free AI-powered review
           </span>
-          <h1 className="mt-5 text-3xl font-bold tracking-tight sm:text-4xl">
+          <h1 className="mt-3 text-2xl font-bold tracking-tight sm:text-3xl">
             Make your resume <span className="bg-gradient-to-r from-cyan-300 to-blue-400 bg-clip-text text-transparent">impossible to ignore.</span>
           </h1>
-          <p className="mx-auto mt-3 max-w-xl text-sm leading-6 text-slate-400 sm:text-base">
+          <p className="mx-auto mt-2 max-w-xl text-sm leading-5 text-slate-400">
             Get a clear ATS score, discover missing skills, and receive practical recommendations tailored to your next opportunity.
           </p>
         </section>
 
         <form onSubmit={handleSubmit} className="mx-auto max-w-3xl rounded-3xl border border-white/10 bg-slate-900/70 p-1 shadow-2xl shadow-black/30 backdrop-blur-xl">
-          <div className="space-y-6 rounded-[1.35rem] border border-white/5 bg-[#0b1020]/90 p-5 sm:p-8">
-            <div className="grid gap-6">
+          <div className="space-y-4 rounded-[1.35rem] border border-white/5 bg-[#0b1020]/90 p-4 sm:p-5">
+            <div className="grid gap-4">
               <div>
-                <div className="mb-3 flex items-center justify-between">
+                <div className="mb-2 flex items-center justify-between">
                   <p className="text-sm font-semibold text-slate-200">Upload resume</p>
                   <span className="text-xs text-slate-500">PDF · Max 5 MB</span>
                 </div>
@@ -129,19 +129,19 @@ export function AnalyzerPage() {
                   onDragOver={(event) => event.preventDefault()}
                   onDrop={handleDrop}
                   disabled={analysis.isPending}
-                  className={`group grid min-h-44 w-full place-items-center rounded-2xl border border-dashed px-6 py-7 text-center transition disabled:cursor-wait ${file ? 'border-cyan-400/50 bg-cyan-400/[0.07]' : 'border-slate-600 bg-slate-950/50 hover:border-cyan-400/60 hover:bg-cyan-400/[0.05]'}`}
+                  className={`group grid min-h-32 w-full place-items-center rounded-xl border border-dashed px-6 py-4 text-center transition disabled:cursor-wait ${file ? 'border-cyan-400/50 bg-cyan-400/[0.07]' : 'border-slate-600 bg-slate-950/50 hover:border-cyan-400/60 hover:bg-cyan-400/[0.05]'}`}
                 >
                   <span>
-                    <span className={`mx-auto grid size-14 place-items-center rounded-2xl text-2xl transition group-hover:-translate-y-1 ${file ? 'bg-cyan-400 text-slate-950' : 'border border-slate-700 bg-slate-900 text-cyan-300'}`} aria-hidden="true">
+                    <span className={`mx-auto grid size-11 place-items-center rounded-xl text-xl transition group-hover:-translate-y-1 ${file ? 'bg-cyan-400 text-slate-950' : 'border border-slate-700 bg-slate-900 text-cyan-300'}`} aria-hidden="true">
                       {file ? '✓' : '↑'}
                     </span>
-                    <span className="mt-4 block max-w-xs truncate text-base font-semibold text-white">
+                    <span className="mt-2 block max-w-xs truncate text-sm font-semibold text-white">
                       {file ? file.name : 'Drop your resume here'}
                     </span>
-                    <span className="mt-2 block text-sm text-slate-500">
+                    <span className="mt-1 block text-xs text-slate-500">
                       {file ? `${formatFileSize(file.size)} · Ready to analyze` : 'or click to browse your files'}
                     </span>
-                    {file && <span className="mt-4 inline-block text-xs font-semibold text-cyan-300">Choose another file</span>}
+                    {file && <span className="mt-2 inline-block text-xs font-semibold text-cyan-300">Choose another file</span>}
                   </span>
                 </button>
                 <input ref={inputRef} type="file" accept="application/pdf,.pdf" className="hidden" onChange={handleFileChange} />
@@ -149,14 +149,14 @@ export function AnalyzerPage() {
               </div>
 
               <label className="flex flex-col text-sm font-semibold text-slate-200">
-                <span className="mb-3">Target job description <span className="font-normal text-slate-500">(optional)</span></span>
+                <span className="mb-2">Target job description <span className="font-normal text-slate-500">(optional)</span></span>
                 <textarea
                   value={jobDescription}
                   onChange={(event) => setJobDescription(event.target.value)}
                   disabled={analysis.isPending}
                   maxLength={12_000}
                   placeholder="Paste the job description for tailored keyword and skill-gap analysis..."
-                  className="min-h-44 flex-1 resize-y rounded-2xl border border-slate-700 bg-slate-950/50 px-4 py-4 font-normal leading-6 text-white outline-none transition placeholder:text-slate-600 focus:border-cyan-400/60 focus:ring-4 focus:ring-cyan-400/10 disabled:cursor-wait"
+                  className="min-h-28 flex-1 resize-y rounded-xl border border-slate-700 bg-slate-950/50 px-4 py-3 font-normal leading-5 text-white outline-none transition placeholder:text-slate-600 focus:border-cyan-400/60 focus:ring-4 focus:ring-cyan-400/10 disabled:cursor-wait"
                 />
               </label>
             </div>
@@ -166,7 +166,7 @@ export function AnalyzerPage() {
             <button
               type="submit"
               disabled={!file || analysis.isPending}
-              className="group flex w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-cyan-400 to-blue-500 px-6 py-4 font-bold text-slate-950 shadow-lg shadow-cyan-500/15 transition hover:-translate-y-0.5 hover:shadow-cyan-500/25 disabled:cursor-not-allowed disabled:translate-y-0 disabled:opacity-40"
+              className="group flex w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-cyan-400 to-blue-500 px-6 py-3 font-bold text-slate-950 shadow-lg shadow-cyan-500/15 transition hover:-translate-y-0.5 hover:shadow-cyan-500/25 disabled:cursor-not-allowed disabled:translate-y-0 disabled:opacity-40"
             >
               {analysis.isPending ? 'Analysis in progress' : 'Analyze my resume'}
               {!analysis.isPending && <span className="transition group-hover:translate-x-1" aria-hidden="true">→</span>}

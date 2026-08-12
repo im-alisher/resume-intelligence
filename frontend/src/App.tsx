@@ -12,29 +12,40 @@ function HomePage() {
   return (
     <main className="min-h-screen overflow-hidden bg-[#050816] text-white">
       <div className="pointer-events-none absolute inset-x-0 top-0 h-[720px] bg-[radial-gradient(circle_at_50%_0%,rgba(34,211,238,0.13),transparent_58%)]" />
-      <nav className="relative mx-auto flex max-w-7xl items-center justify-between px-5 py-5 sm:px-8">
-        <Link to="/" className="flex items-center gap-3 font-bold text-white">
-          <span className="grid size-9 place-items-center rounded-xl bg-cyan-400 text-xs text-slate-950 shadow-lg shadow-cyan-400/20">RI</span>
-          <span className="hidden sm:inline">Resume Intelligence</span>
-          <span className="sm:hidden">Resume AI</span>
-        </Link>
-        <div className="flex items-center gap-1 sm:gap-3">
-          {user ? (
-            <Link to="/dashboard" className="rounded-xl border border-white/10 bg-white/5 px-4 py-2.5 text-sm font-semibold transition hover:border-cyan-400/30 hover:bg-cyan-400/10">
-              Dashboard
-            </Link>
-          ) : (
-            <>
-              <Link to="/login" className="px-3 py-2 text-sm font-semibold text-slate-300 transition hover:text-white">
-                Sign in
+      <header className="sticky top-0 z-40 border-b border-white/[0.07] bg-[#050816]/80 backdrop-blur-xl">
+        <nav className="relative mx-auto flex h-[72px] max-w-7xl items-center justify-between gap-6 px-5 sm:px-8" aria-label="Main navigation">
+          <Link to="/" className="group flex shrink-0 items-center gap-3 text-white">
+            <span className="grid size-10 place-items-center rounded-xl bg-gradient-to-br from-cyan-300 to-cyan-500 text-xs font-black text-slate-950 shadow-lg shadow-cyan-400/20 transition group-hover:scale-105">RI</span>
+            <span>
+              <span className="block text-sm font-bold leading-tight sm:text-base">Resume Intelligence</span>
+              <span className="hidden text-[10px] font-semibold uppercase tracking-[0.18em] text-cyan-400/70 sm:block">AI career toolkit</span>
+            </span>
+          </Link>
+
+          <div className="hidden items-center gap-1 rounded-full border border-white/[0.07] bg-white/[0.035] p-1 lg:flex">
+            <a href="#features" className="rounded-full px-4 py-2 text-sm font-medium text-slate-400 transition hover:bg-white/[0.06] hover:text-white">Features</a>
+            <a href="#how-it-works" className="rounded-full px-4 py-2 text-sm font-medium text-slate-400 transition hover:bg-white/[0.06] hover:text-white">How it works</a>
+            <a href="#sample-report" className="rounded-full px-4 py-2 text-sm font-medium text-slate-400 transition hover:bg-white/[0.06] hover:text-white">Sample report</a>
+          </div>
+
+          <div className="flex shrink-0 items-center gap-1 sm:gap-2">
+            {user ? (
+              <Link to="/dashboard" className="rounded-xl bg-gradient-to-r from-cyan-400 to-blue-500 px-4 py-2.5 text-sm font-semibold text-slate-950 shadow-lg shadow-cyan-500/10 transition hover:-translate-y-0.5">
+                Dashboard <span className="hidden sm:inline" aria-hidden="true">→</span>
               </Link>
-              <Link to="/register" className="rounded-xl bg-cyan-400 px-4 py-2.5 text-sm font-semibold text-slate-950 transition hover:bg-cyan-300">
-                Get started
-              </Link>
-            </>
-          )}
-        </div>
-      </nav>
+            ) : (
+              <>
+                <Link to="/login" className="px-2.5 py-2 text-sm font-semibold text-slate-300 transition hover:text-white sm:px-3">
+                  Sign in
+                </Link>
+                <Link to="/register" className="rounded-xl bg-gradient-to-r from-cyan-400 to-blue-500 px-3.5 py-2.5 text-sm font-semibold text-slate-950 shadow-lg shadow-cyan-500/10 transition hover:-translate-y-0.5 sm:px-4">
+                  Get started
+                </Link>
+              </>
+            )}
+          </div>
+        </nav>
+      </header>
 
       <section className="relative mx-auto flex max-w-6xl flex-col items-center px-5 pb-20 pt-16 text-center sm:px-8 sm:pb-28 sm:pt-24">
         <span className="rounded-full border border-cyan-400/30 bg-cyan-400/10 px-4 py-2 text-xs font-bold uppercase tracking-[0.16em] text-cyan-300">AI-powered career tools</span>
@@ -47,7 +58,7 @@ function HomePage() {
         <div className="mt-9 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-xs text-slate-500"><span>✓ No account needed to analyze</span><span>✓ Private PDF processing</span><span>✓ Actionable AI feedback</span></div>
       </section>
 
-      <section className="border-y border-white/[0.06] bg-white/[0.02] px-5 py-20 sm:px-8 sm:py-24">
+      <section id="features" className="scroll-mt-20 border-y border-white/[0.06] bg-white/[0.02] px-5 py-20 sm:px-8 sm:py-24">
         <div className="mx-auto max-w-7xl">
           <SectionHeading eyebrow="Everything in one place" title="From first draft to application-ready" description="Use focused AI tools at every stage without switching between different platforms." />
           <div className="mt-10 grid gap-4 md:grid-cols-2 lg:grid-cols-4">
@@ -62,7 +73,7 @@ function HomePage() {
         </div>
       </section>
 
-      <section className="px-5 py-20 sm:px-8 sm:py-28">
+      <section id="how-it-works" className="scroll-mt-20 px-5 py-20 sm:px-8 sm:py-28">
         <div className="mx-auto max-w-6xl">
           <SectionHeading eyebrow="Simple workflow" title="A stronger resume in three steps" description="Start with what you already have, understand what needs work, and turn the feedback into a polished document." />
           <div className="relative mt-12 grid gap-5 md:grid-cols-3">
@@ -91,7 +102,7 @@ function HomePage() {
         </div>
       </section>
 
-      <section className="border-t border-white/[0.06] px-5 py-20 sm:px-8 sm:py-28">
+      <section id="sample-report" className="scroll-mt-20 border-t border-white/[0.06] px-5 py-20 sm:px-8 sm:py-28">
         <div className="mx-auto max-w-6xl">
           <SectionHeading eyebrow="Clear, structured feedback" title="See exactly where your resume stands" description="Your report turns a complex resume review into clear scores, strengths, gaps, and prioritized next steps." />
           <div className="mt-10 overflow-hidden rounded-3xl border border-cyan-400/15 bg-gradient-to-br from-slate-900/90 to-slate-950/70 p-5 shadow-2xl shadow-black/25 sm:p-8">
@@ -111,7 +122,49 @@ function HomePage() {
         </div>
       </section>
 
-      <footer className="border-t border-white/[0.06] px-5 py-6 sm:px-8"><div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-3 text-center text-xs text-slate-600 sm:flex-row"><span>Resume Intelligence</span><span>AI-assisted tools for stronger resumes.</span></div></footer>
+      <footer className="relative border-t border-white/[0.07] bg-[#040713] px-5 pb-7 pt-14 sm:px-8 sm:pt-16">
+        <div className="pointer-events-none absolute inset-x-0 top-0 mx-auto h-px max-w-3xl bg-gradient-to-r from-transparent via-cyan-400/45 to-transparent" />
+        <div className="mx-auto max-w-7xl">
+          <div className="grid gap-10 border-b border-white/[0.07] pb-12 md:grid-cols-[1.5fr_0.75fr_0.75fr]">
+            <div className="max-w-md">
+              <Link to="/" className="inline-flex items-center gap-3 text-white">
+                <span className="grid size-11 place-items-center rounded-xl bg-gradient-to-br from-cyan-300 to-cyan-500 text-xs font-black text-slate-950 shadow-lg shadow-cyan-400/15">RI</span>
+                <span><span className="block font-bold">Resume Intelligence</span><span className="text-xs text-slate-500">Build a stronger career story.</span></span>
+              </Link>
+              <p className="mt-5 text-sm leading-6 text-slate-500">Analyze, improve, build, and export professional resumes with focused AI guidance and full control over every change.</p>
+              <div className="mt-5 inline-flex items-center gap-2 rounded-full border border-emerald-400/15 bg-emerald-400/[0.06] px-3 py-2 text-xs font-medium text-emerald-300">
+                <span className="size-1.5 rounded-full bg-emerald-300 shadow-[0_0_10px_rgba(110,231,183,0.8)]" />
+                Uploaded PDFs are processed in memory
+              </div>
+            </div>
+
+            <div>
+              <h2 className="text-xs font-bold uppercase tracking-[0.18em] text-slate-300">Product</h2>
+              <div className="mt-5 flex flex-col items-start gap-3 text-sm text-slate-500">
+                <Link to="/analyze" className="transition hover:text-cyan-300">Resume analyzer</Link>
+                <Link to="/dashboard" className="transition hover:text-cyan-300">Resume builder</Link>
+                <a href="#features" className="transition hover:text-cyan-300">Features</a>
+                <a href="#sample-report" className="transition hover:text-cyan-300">Sample report</a>
+              </div>
+            </div>
+
+            <div>
+              <h2 className="text-xs font-bold uppercase tracking-[0.18em] text-slate-300">Your workspace</h2>
+              <div className="mt-5 flex flex-col items-start gap-3 text-sm text-slate-500">
+                <Link to="/dashboard" className="transition hover:text-cyan-300">Dashboard</Link>
+                {!user && <Link to="/login" className="transition hover:text-cyan-300">Sign in</Link>}
+                {!user && <Link to="/register" className="transition hover:text-cyan-300">Create account</Link>}
+                <a href="#how-it-works" className="transition hover:text-cyan-300">How it works</a>
+              </div>
+            </div>
+          </div>
+
+          <div className="flex flex-col gap-3 pt-6 text-xs text-slate-600 sm:flex-row sm:items-center sm:justify-between">
+            <p>© {new Date().getFullYear()} Resume Intelligence. All rights reserved.</p>
+            <p>AI-assisted feedback should always be reviewed before applying.</p>
+          </div>
+        </div>
+      </footer>
     </main>
   )
 }

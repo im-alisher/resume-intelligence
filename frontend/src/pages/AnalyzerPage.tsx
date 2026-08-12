@@ -91,6 +91,7 @@ export function AnalyzerPage() {
     <main className="relative min-h-screen overflow-hidden bg-[#050816] text-white">
       <div className="pointer-events-none absolute inset-x-0 top-0 h-[620px] bg-[radial-gradient(circle_at_50%_0%,rgba(34,211,238,0.12),transparent_58%)]" />
       <div className="relative mx-auto max-w-7xl px-5 py-7 sm:px-8">
+        {!analysis.isPending && <>
         <header className="flex items-center justify-between border-b border-white/5 pb-5">
           <Link to="/" className="flex items-center gap-3 font-bold text-white">
             <span className="grid size-9 place-items-center rounded-xl bg-cyan-400 text-sm text-slate-950 shadow-lg shadow-cyan-400/20">RI</span>
@@ -101,15 +102,15 @@ export function AnalyzerPage() {
           </Link>
         </header>
 
-        <section className="mx-auto max-w-3xl pb-10 pt-16 text-center sm:pt-20">
+        <section className="mx-auto max-w-2xl pb-7 pt-10 text-center sm:pt-12">
           <span className="inline-flex items-center gap-2 rounded-full border border-cyan-400/20 bg-cyan-400/10 px-4 py-2 text-xs font-bold uppercase tracking-[0.18em] text-cyan-200">
             <span className="size-1.5 rounded-full bg-cyan-300 shadow-[0_0_10px_#67e8f9]" />
             Free AI-powered review
           </span>
-          <h1 className="mt-7 text-4xl font-bold tracking-tight sm:text-6xl">
+          <h1 className="mt-5 text-3xl font-bold tracking-tight sm:text-4xl">
             Make your resume <span className="bg-gradient-to-r from-cyan-300 to-blue-400 bg-clip-text text-transparent">impossible to ignore.</span>
           </h1>
-          <p className="mx-auto mt-5 max-w-2xl text-base leading-7 text-slate-400 sm:text-lg">
+          <p className="mx-auto mt-3 max-w-xl text-sm leading-6 text-slate-400 sm:text-base">
             Get a clear ATS score, discover missing skills, and receive practical recommendations tailored to your next opportunity.
           </p>
         </section>
@@ -172,6 +173,7 @@ export function AnalyzerPage() {
             </button>
           </div>
         </form>
+        </>}
 
         {analysis.isPending && <ProcessingPanel step={processingStep} fileName={file?.name ?? 'your resume'} />}
         {analysis.data && <AnalysisResults ref={resultsRef} result={analysis.data} />}
@@ -182,8 +184,9 @@ export function AnalyzerPage() {
 
 function ProcessingPanel({ step, fileName }: { step: number; fileName: string }) {
   return (
-    <section className="mx-auto mt-8 max-w-4xl overflow-hidden rounded-3xl border border-cyan-400/20 bg-slate-900/70 p-6 shadow-xl shadow-cyan-950/20 sm:p-8" role="status" aria-live="polite">
-      <div className="flex flex-col items-center gap-6 sm:flex-row">
+    <div className="grid min-h-[calc(100vh-3.5rem)] place-items-center py-8">
+    <section className="w-full max-w-4xl overflow-hidden rounded-3xl border border-cyan-400/20 bg-slate-900/70 p-7 shadow-2xl shadow-cyan-950/30 sm:p-10" role="status" aria-live="polite">
+      <div className="flex flex-col items-center gap-7 sm:flex-row">
         <div className="relative grid size-24 shrink-0 place-items-center">
           <span className="absolute inset-0 rounded-full border border-cyan-400/20" />
           <span className="analyzer-orbit absolute inset-2 rounded-full border-2 border-transparent border-t-cyan-300 border-r-blue-400" />
@@ -206,6 +209,7 @@ function ProcessingPanel({ step, fileName }: { step: number; fileName: string })
         </div>
       </div>
     </section>
+    </div>
   )
 }
 

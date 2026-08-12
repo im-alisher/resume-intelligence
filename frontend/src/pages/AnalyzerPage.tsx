@@ -115,9 +115,9 @@ export function AnalyzerPage() {
           </p>
         </section>
 
-        <form onSubmit={handleSubmit} className="mx-auto max-w-4xl rounded-3xl border border-white/10 bg-slate-900/70 p-1 shadow-2xl shadow-black/30 backdrop-blur-xl">
+        <form onSubmit={handleSubmit} className="mx-auto max-w-3xl rounded-3xl border border-white/10 bg-slate-900/70 p-1 shadow-2xl shadow-black/30 backdrop-blur-xl">
           <div className="space-y-6 rounded-[1.35rem] border border-white/5 bg-[#0b1020]/90 p-5 sm:p-8">
-            <div className="grid gap-6 md:grid-cols-[1fr_0.95fr]">
+            <div className="grid gap-6">
               <div>
                 <div className="mb-3 flex items-center justify-between">
                   <p className="text-sm font-semibold text-slate-200">Upload resume</p>
@@ -129,7 +129,7 @@ export function AnalyzerPage() {
                   onDragOver={(event) => event.preventDefault()}
                   onDrop={handleDrop}
                   disabled={analysis.isPending}
-                  className={`group grid min-h-56 w-full place-items-center rounded-2xl border border-dashed px-6 py-8 text-center transition disabled:cursor-wait ${file ? 'border-cyan-400/50 bg-cyan-400/[0.07]' : 'border-slate-600 bg-slate-950/50 hover:border-cyan-400/60 hover:bg-cyan-400/[0.05]'}`}
+                  className={`group grid min-h-44 w-full place-items-center rounded-2xl border border-dashed px-6 py-7 text-center transition disabled:cursor-wait ${file ? 'border-cyan-400/50 bg-cyan-400/[0.07]' : 'border-slate-600 bg-slate-950/50 hover:border-cyan-400/60 hover:bg-cyan-400/[0.05]'}`}
                 >
                   <span>
                     <span className={`mx-auto grid size-14 place-items-center rounded-2xl text-2xl transition group-hover:-translate-y-1 ${file ? 'bg-cyan-400 text-slate-950' : 'border border-slate-700 bg-slate-900 text-cyan-300'}`} aria-hidden="true">
@@ -156,7 +156,7 @@ export function AnalyzerPage() {
                   disabled={analysis.isPending}
                   maxLength={12_000}
                   placeholder="Paste the job description for tailored keyword and skill-gap analysis..."
-                  className="min-h-56 flex-1 resize-none rounded-2xl border border-slate-700 bg-slate-950/50 px-4 py-4 font-normal leading-6 text-white outline-none transition placeholder:text-slate-600 focus:border-cyan-400/60 focus:ring-4 focus:ring-cyan-400/10 disabled:cursor-wait"
+                  className="min-h-44 flex-1 resize-y rounded-2xl border border-slate-700 bg-slate-950/50 px-4 py-4 font-normal leading-6 text-white outline-none transition placeholder:text-slate-600 focus:border-cyan-400/60 focus:ring-4 focus:ring-cyan-400/10 disabled:cursor-wait"
                 />
               </label>
             </div>
@@ -186,31 +186,31 @@ function ProcessingPanel({ step, fileName }: { step: number; fileName: string })
   return (
     <section className="fixed inset-0 z-50 overflow-y-auto bg-[#050816]" role="status" aria-live="polite">
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_50%_20%,rgba(34,211,238,0.13),transparent_38%),radial-gradient(circle_at_80%_80%,rgba(59,130,246,0.08),transparent_30%)]" />
-      <div className="relative mx-auto flex min-h-screen max-w-6xl items-center px-5 py-8 sm:px-8">
-        <div className="w-full overflow-hidden rounded-[2rem] border border-cyan-400/20 bg-slate-900/65 p-6 shadow-2xl shadow-cyan-950/25 backdrop-blur-xl sm:p-10 lg:p-12">
+      <div className="relative mx-auto flex min-h-screen max-w-6xl items-center px-4 py-4 sm:px-8 sm:py-8">
+        <div className="w-full overflow-hidden rounded-2xl border border-cyan-400/20 bg-slate-900/65 p-4 shadow-2xl shadow-cyan-950/25 backdrop-blur-xl sm:rounded-[2rem] sm:p-10 lg:p-12">
           <div className="flex flex-col items-center text-center">
-            <div className="relative grid size-24 place-items-center sm:size-28">
+            <div className="relative grid size-20 place-items-center sm:size-28">
               <span className="absolute inset-0 rounded-full border border-cyan-400/20" />
               <span className="analyzer-orbit absolute inset-2 rounded-full border-2 border-transparent border-t-cyan-300 border-r-blue-400" />
-              <span className="analyzer-pulse grid size-12 place-items-center rounded-2xl bg-cyan-400/15 text-xl text-cyan-200 sm:size-14">✦</span>
+              <span className="analyzer-pulse grid size-10 place-items-center rounded-xl bg-cyan-400/15 text-lg text-cyan-200 sm:size-14 sm:rounded-2xl sm:text-xl">✦</span>
             </div>
-            <p className="mt-6 text-xs font-bold uppercase tracking-[0.22em] text-cyan-300">Analyzing securely</p>
-            <h2 className="mt-3 text-2xl font-semibold text-white sm:text-3xl">{processingSteps[step]}</h2>
+            <p className="mt-4 text-[10px] font-bold uppercase tracking-[0.22em] text-cyan-300 sm:mt-6 sm:text-xs">Analyzing securely</p>
+            <h2 className="mt-2 text-xl font-semibold text-white sm:mt-3 sm:text-3xl">{processingSteps[step]}</h2>
             <p className="mt-2 max-w-full truncate text-sm text-slate-500">{fileName}</p>
           </div>
 
-          <div className="mt-9 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+          <div className="mt-6 grid grid-cols-2 gap-2 sm:mt-9 sm:gap-3 lg:grid-cols-4">
             {analysisBenefits.map((benefit, index) => {
               const state = index < step ? 'complete' : index === step ? 'active' : 'waiting'
               return (
-              <div key={benefit.title} className={`relative rounded-2xl border p-5 text-left transition-all duration-500 ${state === 'active' ? 'scale-[1.02] border-cyan-400/40 bg-cyan-400/[0.08] shadow-lg shadow-cyan-950/20' : state === 'complete' ? 'border-emerald-400/20 bg-emerald-400/[0.04]' : 'border-white/[0.07] bg-slate-950/35 opacity-55'}`}>
+              <div key={benefit.title} className={`relative rounded-xl border p-3 text-left transition-all duration-500 sm:rounded-2xl sm:p-5 ${state === 'active' ? 'scale-[1.02] border-cyan-400/40 bg-cyan-400/[0.08] shadow-lg shadow-cyan-950/20' : state === 'complete' ? 'border-emerald-400/20 bg-emerald-400/[0.04]' : 'border-white/[0.07] bg-slate-950/35 opacity-55'}`}>
                 <div className="flex items-center justify-between gap-3">
-                  <span className={`grid size-10 place-items-center rounded-xl text-lg ${benefit.style} ${state === 'active' ? 'analyzer-pulse' : ''}`} aria-hidden="true">{state === 'complete' ? '✓' : benefit.icon}</span>
+                  <span className={`grid size-8 place-items-center rounded-lg text-sm sm:size-10 sm:rounded-xl sm:text-lg ${benefit.style} ${state === 'active' ? 'analyzer-pulse' : ''}`} aria-hidden="true">{state === 'complete' ? '✓' : benefit.icon}</span>
                   <span className={`text-[10px] font-bold uppercase tracking-wider ${state === 'active' ? 'text-cyan-300' : state === 'complete' ? 'text-emerald-300' : 'text-slate-600'}`}>{state === 'complete' ? 'Complete' : state === 'active' ? 'Analyzing' : 'Waiting'}</span>
                 </div>
-                <h3 className="mt-4 font-semibold text-slate-100">{benefit.title}</h3>
-                <p className="mt-2 text-xs leading-5 text-slate-500">{benefit.description}</p>
-                <div className="mt-4 h-1 overflow-hidden rounded-full bg-slate-800">
+                <h3 className="mt-3 text-sm font-semibold text-slate-100 sm:mt-4 sm:text-base">{benefit.title}</h3>
+                <p className="mt-2 hidden text-xs leading-5 text-slate-500 sm:block">{benefit.description}</p>
+                <div className="mt-3 h-1 overflow-hidden rounded-full bg-slate-800 sm:mt-4">
                   {state !== 'waiting' && <div className={`h-full rounded-full ${state === 'active' ? 'analyzer-progress bg-gradient-to-r from-cyan-300 to-blue-400' : 'w-full bg-emerald-400'}`} />}
                 </div>
               </div>

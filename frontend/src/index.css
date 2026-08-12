@@ -16,3 +16,29 @@ body {
 button {
   cursor: pointer;
 }
+
+@keyframes analyzer-orbit {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes analyzer-pulse {
+  0%, 100% { transform: scale(0.94); opacity: 0.72; }
+  50% { transform: scale(1.06); opacity: 1; }
+}
+
+@keyframes analyzer-progress {
+  0% { width: 8%; }
+  100% { width: 100%; }
+}
+
+.analyzer-orbit { animation: analyzer-orbit 1.15s linear infinite; }
+.analyzer-pulse { animation: analyzer-pulse 1.8s ease-in-out infinite; }
+.analyzer-progress { animation: analyzer-progress 1.8s ease-out forwards; }
+
+@media (prefers-reduced-motion: reduce) {
+  .analyzer-orbit,
+  .analyzer-pulse,
+  .analyzer-progress {
+    animation: none;
+  }
+}

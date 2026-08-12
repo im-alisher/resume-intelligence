@@ -24,6 +24,28 @@ export function validateEnvironment(
     errors.push('GROQ_API_KEY is required');
   }
 
+  for (const name of ['RESEND_API_KEY', 'EMAIL_FROM'] as const) {
+    if (
+      typeof environment[name] !== 'string' ||
+      !environment[name].trim()
+    ) {
+      errors.push(`${name} is required`);
+    }
+  }
+
+  const passwordResetExpiryMinutes = Number(
+    environment.PASSWORD_RESET_EXPIRY_MINUTES,
+  );
+  if (
+    !Number.isInteger(passwordResetExpiryMinutes) ||
+    passwordResetExpiryMinutes < 1 ||
+    passwordResetExpiryMinutes > 1_440
+  ) {
+    errors.push(
+      'PASSWORD_RESET_EXPIRY_MINUTES must be an integer between 1 and 1440',
+    );
+  }
+
   const port = Number(environment.PORT ?? 3000);
   if (!Number.isInteger(port) || port < 1 || port > 65_535) {
     errors.push('PORT must be an integer between 1 and 65535');
@@ -35,7 +57,11 @@ export function validateEnvironment(
     );
   }
 
-  return { ...environment, PORT: port };
+  return {
+    ...environment,
+    PORT: port,
+    PASSWORD_RESET_EXPIRY_MINUTES: passwordResetExpiryMinutes,
+  };
 }
 
 function isUrl(value: string): boolean {

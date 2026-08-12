@@ -5,6 +5,7 @@ import { AuthPage } from './pages/AuthPage'
 import { AnalyzerPage } from './pages/AnalyzerPage'
 import { DashboardPage } from './pages/DashboardPage'
 import { ResumeBuilderPage } from './pages/ResumeBuilderPage'
+import { PasswordResetPage } from './pages/PasswordResetPage'
 
 function HomePage() {
   const { user } = useAuth()
@@ -209,6 +210,8 @@ export default function App() {
       <Route path="/" element={<HomePage />} />
       <Route path="/login" element={<AuthPage mode="login" />} />
       <Route path="/register" element={<AuthPage mode="register" />} />
+      <Route path="/forgot-password" element={<PasswordResetPage mode="request" />} />
+      <Route path="/reset-password" element={<PasswordResetPage mode="reset" />} />
       <Route path="/analyze" element={<AnalyzerPage />} />
       <Route element={<ProtectedRoute />}>
         <Route path="/dashboard" element={<DashboardPage />} />

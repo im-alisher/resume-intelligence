@@ -17,9 +17,10 @@ export function PasswordResetPage({ mode }: PasswordResetPageProps) {
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
+    const form = event.currentTarget
     setError(null)
     setMessage(null)
-    const data = new FormData(event.currentTarget)
+    const data = new FormData(form)
     const password = String(data.get('password') ?? '')
     const confirmation = String(data.get('confirmation') ?? '')
 
@@ -42,7 +43,7 @@ export function PasswordResetPage({ mode }: PasswordResetPageProps) {
         },
       )
       setMessage(response.message)
-      event.currentTarget.reset()
+      form.reset()
     } catch (caughtError) {
       setError(
         caughtError instanceof ApiError

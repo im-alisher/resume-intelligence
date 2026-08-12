@@ -88,6 +88,13 @@ export function AuthPage({ mode }: AuthPageProps) {
             minLength={8}
             required
           />
+          {!isRegister && (
+            <div className="-mt-2 text-right">
+              <Link to="/forgot-password" className="text-sm font-semibold text-cyan-300 transition hover:text-cyan-200">
+                Forgot password?
+              </Link>
+            </div>
+          )}
 
           {error && (
             <p role="alert" className="rounded-lg bg-red-500/10 px-4 py-3 text-sm text-red-300">

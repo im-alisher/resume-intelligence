@@ -66,7 +66,6 @@ function HomePage() {
         <div className="mx-auto max-w-6xl">
           <SectionHeading eyebrow="Simple workflow" title="A stronger resume in three steps" description="Start with what you already have, understand what needs work, and turn the feedback into a polished document." />
           <div className="relative mt-12 grid gap-5 md:grid-cols-3">
-            <div className="absolute left-[17%] right-[17%] top-7 hidden h-px bg-gradient-to-r from-cyan-400/10 via-cyan-400/50 to-cyan-400/10 md:block" />
             {homeSteps.map((item, index) => (
               <article key={item.title} className="relative rounded-2xl border border-white/[0.07] bg-slate-900/45 p-6 text-center">
                 <span className="relative mx-auto grid size-14 place-items-center rounded-2xl border border-cyan-400/25 bg-[#0b1020] text-sm font-bold text-cyan-300 shadow-lg shadow-cyan-950/30">0{index + 1}</span>
@@ -87,17 +86,28 @@ function HomePage() {
             <Link to="/dashboard" className="mt-7 inline-flex rounded-xl bg-white px-6 py-3 font-semibold text-slate-950 transition hover:bg-cyan-100">Start building free <span className="ml-2" aria-hidden="true">→</span></Link>
           </div>
           <div className="grid gap-3 border-t border-white/[0.07] bg-slate-950/30 p-7 sm:grid-cols-2 sm:p-10 lg:border-l lg:border-t-0">
-            {homeBenefits.map((benefit) => <div key={benefit} className="flex items-start gap-3 rounded-xl border border-white/[0.06] bg-white/[0.03] p-4 text-sm leading-6 text-slate-300"><span className="mt-1 text-cyan-300">✓</span>{benefit}</div>)}
+            {homeBenefits.map((benefit) => <article key={benefit.title} className="group rounded-2xl border border-white/[0.07] bg-gradient-to-br from-white/[0.055] to-transparent p-5 transition hover:border-cyan-400/25 hover:bg-cyan-400/[0.04]"><span className={`grid size-10 place-items-center rounded-xl text-lg ${benefit.style}`} aria-hidden="true">{benefit.icon}</span><h3 className="mt-4 font-semibold text-slate-100">{benefit.title}</h3><p className="mt-2 text-xs leading-5 text-slate-500">{benefit.description}</p></article>)}
           </div>
         </div>
       </section>
 
-      <section className="border-t border-white/[0.06] px-5 py-16 text-center sm:px-8 sm:py-20">
-        <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">Ready to improve your next application?</h2>
-        <p className="mx-auto mt-4 max-w-xl text-slate-400">Get useful feedback in minutes, or build a professional resume from scratch.</p>
-        <div className="mx-auto mt-7 flex max-w-md flex-col justify-center gap-3 sm:max-w-none sm:flex-row">
-          <Link to="/analyze" className="rounded-xl bg-cyan-400 px-6 py-3 font-semibold text-slate-950 hover:bg-cyan-300">Analyze for free</Link>
-          <Link to={user ? '/dashboard' : '/register'} className="rounded-xl border border-white/10 px-6 py-3 font-semibold hover:bg-white/5">{user ? 'Open dashboard' : 'Create an account'}</Link>
+      <section className="border-t border-white/[0.06] px-5 py-20 sm:px-8 sm:py-28">
+        <div className="mx-auto max-w-6xl">
+          <SectionHeading eyebrow="Clear, structured feedback" title="See exactly where your resume stands" description="Your report turns a complex resume review into clear scores, strengths, gaps, and prioritized next steps." />
+          <div className="mt-10 overflow-hidden rounded-3xl border border-cyan-400/15 bg-gradient-to-br from-slate-900/90 to-slate-950/70 p-5 shadow-2xl shadow-black/25 sm:p-8">
+            <div className="flex flex-col gap-3 border-b border-white/[0.07] pb-5 sm:flex-row sm:items-center sm:justify-between"><div><p className="text-xs font-bold uppercase tracking-[0.18em] text-emerald-300">Sample analysis</p><h3 className="mt-2 text-xl font-semibold">Resume performance report</h3></div><span className="self-start rounded-full border border-white/10 bg-white/5 px-3 py-1.5 text-xs text-slate-400">Generated in moments</span></div>
+            <div className="mt-5 grid gap-4 lg:grid-cols-[0.65fr_0.65fr_1.7fr]">
+              <SampleScore label="Overall score" score={82} color="cyan" />
+              <SampleScore label="ATS readiness" score={76} color="blue" />
+              <div className="rounded-2xl border border-white/[0.07] bg-white/[0.025] p-5"><p className="text-xs font-bold uppercase tracking-wider text-slate-500">Executive snapshot</p><h4 className="mt-3 font-semibold text-white">A strong foundation with focused opportunities.</h4><p className="mt-2 text-sm leading-6 text-slate-500">Clear experience and relevant skills are visible. Stronger metrics and target-role keywords could improve impact.</p><div className="mt-4 flex flex-wrap gap-2 text-[11px] font-semibold"><span className="rounded-full bg-emerald-400/10 px-3 py-1.5 text-emerald-300">6 strengths</span><span className="rounded-full bg-amber-400/10 px-3 py-1.5 text-amber-300">4 skill gaps</span><span className="rounded-full bg-violet-400/10 px-3 py-1.5 text-violet-300">5 actions</span></div></div>
+            </div>
+            <div className="mt-4 grid gap-4 md:grid-cols-3">
+              <SampleInsight title="Skills detected" tone="cyan" items={['TypeScript', 'React', 'REST APIs']} />
+              <SampleInsight title="What stands out" tone="emerald" items={['Relevant experience', 'Clear career progression']} />
+              <SampleInsight title="Priority action" tone="amber" items={['Add measurable outcomes', 'Improve keyword alignment']} />
+            </div>
+            <div className="mt-6 text-center"><Link to="/analyze" className="inline-flex rounded-xl bg-cyan-400 px-6 py-3 font-semibold text-slate-950 transition hover:bg-cyan-300">Get your own analysis <span className="ml-2" aria-hidden="true">→</span></Link></div>
+          </div>
         </div>
       </section>
 
@@ -119,7 +129,22 @@ const homeSteps = [
   { title: 'Improve and export', description: 'Apply the suggestions you choose, preview the result, and download your final PDF.' },
 ]
 
-const homeBenefits = ['Private in-memory PDF processing', 'Real-time resume preview', 'Suggestions never auto-save', 'Secure account-based resume storage']
+const homeBenefits = [
+  { icon: '◇', title: 'Private processing', description: 'Uploaded PDFs are processed in memory and never permanently stored.', style: 'bg-cyan-400/10 text-cyan-300' },
+  { icon: '◫', title: 'Live preview', description: 'See every resume edit reflected instantly before you save or export.', style: 'bg-blue-400/10 text-blue-300' },
+  { icon: '✦', title: 'You stay in control', description: 'AI suggestions are previewed first and never applied automatically.', style: 'bg-violet-400/10 text-violet-300' },
+  { icon: '⌾', title: 'Secure resume storage', description: 'Authenticated resume data is isolated to its owning account.', style: 'bg-emerald-400/10 text-emerald-300' },
+]
+
+function SampleScore({ label, score, color }: { label: string; score: number; color: 'cyan' | 'blue' }) {
+  const accent = color === 'cyan' ? '#22d3ee' : '#60a5fa'
+  return <div className="flex items-center gap-4 rounded-2xl border border-white/[0.07] bg-white/[0.025] p-4 lg:flex-col lg:items-start"><div className="relative grid size-16 shrink-0 place-items-center rounded-full" style={{ background: `conic-gradient(${accent} ${score * 3.6}deg, rgba(51,65,85,.55) 0deg)` }}><div className="absolute inset-[5px] rounded-full bg-[#0b1020]" /><span className="relative text-lg font-bold">{score}</span></div><div><p className="text-[10px] font-bold uppercase tracking-wider text-slate-500">{label}</p><p className="mt-1 text-sm font-semibold text-slate-200">Strong foundation</p></div></div>
+}
+
+const sampleTones = { cyan: 'bg-cyan-400/10 text-cyan-200', emerald: 'bg-emerald-400/10 text-emerald-200', amber: 'bg-amber-400/10 text-amber-200' }
+function SampleInsight({ title, items, tone }: { title: string; items: string[]; tone: keyof typeof sampleTones }) {
+  return <div className="rounded-2xl border border-white/[0.07] bg-white/[0.025] p-5"><h4 className="font-semibold">{title}</h4><div className="mt-3 flex flex-wrap gap-2">{items.map((item) => <span key={item} className={`rounded-lg px-2.5 py-1.5 text-xs ${sampleTones[tone]}`}>{item}</span>)}</div></div>
+}
 
 function SectionHeading({ eyebrow, title, description }: { eyebrow: string; title: string; description: string }) {
   return <div className="mx-auto max-w-2xl text-center"><p className="text-xs font-bold uppercase tracking-[0.18em] text-cyan-300">{eyebrow}</p><h2 className="mt-3 text-3xl font-bold tracking-tight sm:text-4xl">{title}</h2><p className="mt-4 text-sm leading-7 text-slate-400 sm:text-base">{description}</p></div>

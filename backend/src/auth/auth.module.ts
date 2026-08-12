@@ -6,7 +6,7 @@ import { UsersModule } from '../users/users.module';
 import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
 import { JwtStrategy } from './strategies/jwt.strategy';
-import { PasswordResetMailService } from './password-reset-mail.service';
+import { ResendEmailService } from './resend-email.service';
 
 @Module({
   imports: [
@@ -24,7 +24,7 @@ import { PasswordResetMailService } from './password-reset-mail.service';
     }),
   ],
   controllers: [AuthController],
-  providers: [AuthService, JwtStrategy, PasswordResetMailService],
+  providers: [AuthService, JwtStrategy, ResendEmailService],
   exports: [AuthService, JwtModule],
 })
 export class AuthModule {}

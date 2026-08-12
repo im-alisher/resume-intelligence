@@ -15,6 +15,9 @@ export function AuthPage({ mode }: AuthPageProps) {
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const isRegister = mode === 'register'
+  const successMessage = (
+    location.state as { success?: string } | null
+  )?.success
 
   if (user) return <Navigate to="/dashboard" replace />
 
@@ -99,6 +102,12 @@ export function AuthPage({ mode }: AuthPageProps) {
           {error && (
             <p role="alert" className="rounded-lg bg-red-500/10 px-4 py-3 text-sm text-red-300">
               {error}
+            </p>
+          )}
+
+          {successMessage && !error && (
+            <p role="status" className="rounded-lg border border-emerald-400/15 bg-emerald-400/10 px-4 py-3 text-sm text-emerald-300">
+              {successMessage} You can now sign in.
             </p>
           )}
 

@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import type { FormEvent } from 'react'
-import { Link, useSearchParams } from 'react-router-dom'
+import { Link, useNavigate, useSearchParams } from 'react-router-dom'
 import { ApiError, apiRequest } from '../lib/api'
 
 interface PasswordResetPageProps {
@@ -9,6 +9,7 @@ interface PasswordResetPageProps {
 
 export function PasswordResetPage({ mode }: PasswordResetPageProps) {
   const [searchParams] = useSearchParams()
+  const navigate = useNavigate()
   const token = searchParams.get('token') ?? ''
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [message, setMessage] = useState<string | null>(null)
@@ -44,6 +45,12 @@ export function PasswordResetPage({ mode }: PasswordResetPageProps) {
       )
       setMessage(response.message)
       form.reset()
+      if (isReset) {
+        navigate('/login', {
+          replace: true,
+          state: { success: response.message },
+        })
+      }
     } catch (caughtError) {
       setError(
         caughtError instanceof ApiError

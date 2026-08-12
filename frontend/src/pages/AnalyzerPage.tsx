@@ -199,7 +199,7 @@ function ProcessingPanel({ step, fileName }: { step: number; fileName: string })
             <p className="mt-2 max-w-full truncate text-sm text-slate-500">{fileName}</p>
           </div>
 
-          <div className="mt-6 grid grid-cols-2 gap-2 sm:mt-9 sm:gap-3 lg:grid-cols-4">
+          <div className="mt-6 grid grid-cols-1 gap-2 sm:mt-9 sm:grid-cols-2 sm:gap-3 lg:grid-cols-4">
             {analysisBenefits.map((benefit, index) => {
               const state = index < step ? 'complete' : index === step ? 'active' : 'waiting'
               return (

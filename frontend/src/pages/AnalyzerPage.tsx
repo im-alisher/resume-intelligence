@@ -185,54 +185,44 @@ export function AnalyzerPage() {
 function ProcessingPanel({ step, fileName }: { step: number; fileName: string }) {
   return (
     <section className="fixed inset-0 z-50 overflow-y-auto bg-[#050816]" role="status" aria-live="polite">
-      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_18%_35%,rgba(34,211,238,0.12),transparent_32%),radial-gradient(circle_at_85%_15%,rgba(59,130,246,0.1),transparent_28%)]" />
-      <div className="relative mx-auto grid min-h-screen max-w-7xl items-center gap-8 px-5 py-8 sm:px-8 lg:grid-cols-[1.45fr_0.75fr] lg:gap-12 lg:py-12">
-        <div className="flex min-h-[430px] flex-col justify-center rounded-[2rem] border border-cyan-400/15 bg-slate-900/35 p-7 sm:p-10 lg:min-h-[620px] lg:p-14">
-          <div className="flex flex-col items-start gap-7 sm:flex-row sm:items-center">
-            <div className="relative grid size-24 shrink-0 place-items-center sm:size-28">
+      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_50%_20%,rgba(34,211,238,0.13),transparent_38%),radial-gradient(circle_at_80%_80%,rgba(59,130,246,0.08),transparent_30%)]" />
+      <div className="relative mx-auto flex min-h-screen max-w-6xl items-center px-5 py-8 sm:px-8">
+        <div className="w-full overflow-hidden rounded-[2rem] border border-cyan-400/20 bg-slate-900/65 p-6 shadow-2xl shadow-cyan-950/25 backdrop-blur-xl sm:p-10 lg:p-12">
+          <div className="flex flex-col items-center text-center">
+            <div className="relative grid size-24 place-items-center sm:size-28">
               <span className="absolute inset-0 rounded-full border border-cyan-400/20" />
               <span className="analyzer-orbit absolute inset-2 rounded-full border-2 border-transparent border-t-cyan-300 border-r-blue-400" />
               <span className="analyzer-pulse grid size-12 place-items-center rounded-2xl bg-cyan-400/15 text-xl text-cyan-200 sm:size-14">✦</span>
             </div>
-            <div className="min-w-0 flex-1">
-              <p className="text-xs font-bold uppercase tracking-[0.22em] text-cyan-300">Analyzing securely</p>
-              <h2 className="mt-3 text-2xl font-semibold text-white sm:text-3xl">{processingSteps[step]}</h2>
-              <p className="mt-2 truncate text-sm text-slate-500">{fileName}</p>
-            </div>
+            <p className="mt-6 text-xs font-bold uppercase tracking-[0.22em] text-cyan-300">Analyzing securely</p>
+            <h2 className="mt-3 text-2xl font-semibold text-white sm:text-3xl">{processingSteps[step]}</h2>
+            <p className="mt-2 max-w-full truncate text-sm text-slate-500">{fileName}</p>
           </div>
 
-          <div className="mt-10 grid grid-cols-4 gap-2">
-            {processingSteps.map((label, index) => (
-              <div key={label}>
-                <div className={`h-1.5 overflow-hidden rounded-full ${index <= step ? 'bg-cyan-400/25' : 'bg-slate-800'}`}>
-                  {index <= step && <div className={`h-full rounded-full bg-gradient-to-r from-cyan-300 to-blue-400 ${index === step ? 'analyzer-progress' : 'w-full'}`} />}
+          <div className="mt-9 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+            {analysisBenefits.map((benefit, index) => {
+              const state = index < step ? 'complete' : index === step ? 'active' : 'waiting'
+              return (
+              <div key={benefit.title} className={`relative rounded-2xl border p-5 text-left transition-all duration-500 ${state === 'active' ? 'scale-[1.02] border-cyan-400/40 bg-cyan-400/[0.08] shadow-lg shadow-cyan-950/20' : state === 'complete' ? 'border-emerald-400/20 bg-emerald-400/[0.04]' : 'border-white/[0.07] bg-slate-950/35 opacity-55'}`}>
+                <div className="flex items-center justify-between gap-3">
+                  <span className={`grid size-10 place-items-center rounded-xl text-lg ${benefit.style} ${state === 'active' ? 'analyzer-pulse' : ''}`} aria-hidden="true">{state === 'complete' ? '✓' : benefit.icon}</span>
+                  <span className={`text-[10px] font-bold uppercase tracking-wider ${state === 'active' ? 'text-cyan-300' : state === 'complete' ? 'text-emerald-300' : 'text-slate-600'}`}>{state === 'complete' ? 'Complete' : state === 'active' ? 'Analyzing' : 'Waiting'}</span>
                 </div>
-                <p className={`mt-3 hidden text-xs leading-5 sm:block ${index === step ? 'text-cyan-200' : index < step ? 'text-slate-400' : 'text-slate-600'}`}>{index < step ? 'Completed' : label}</p>
+                <h3 className="mt-4 font-semibold text-slate-100">{benefit.title}</h3>
+                <p className="mt-2 text-xs leading-5 text-slate-500">{benefit.description}</p>
+                <div className="mt-4 h-1 overflow-hidden rounded-full bg-slate-800">
+                  {state !== 'waiting' && <div className={`h-full rounded-full ${state === 'active' ? 'analyzer-progress bg-gradient-to-r from-cyan-300 to-blue-400' : 'w-full bg-emerald-400'}`} />}
+                </div>
               </div>
-            ))}
+              )
+            })}
           </div>
 
-          <div className="mt-10 rounded-2xl border border-white/[0.06] bg-slate-950/35 px-5 py-4 text-sm leading-6 text-slate-500">
-            Your resume is processed securely. Keep this page open while we prepare your personalized report.
+          <div className="mt-7 flex flex-col items-center justify-between gap-3 border-t border-white/[0.07] pt-6 text-center sm:flex-row sm:text-left">
+            <p className="flex items-center gap-3 text-sm font-medium text-slate-400"><span className="grid size-8 place-items-center rounded-xl bg-cyan-400/10 text-cyan-300" aria-hidden="true">♢</span>100% private and secure</p>
+            <p className="text-xs leading-5 text-slate-600">Your PDF is processed in memory and is not permanently stored.</p>
           </div>
         </div>
-
-        <aside className="rounded-[2rem] border border-white/10 bg-gradient-to-b from-slate-900/90 to-slate-900/60 p-7 shadow-2xl shadow-black/20 sm:p-9">
-          <p className="text-xs font-bold uppercase tracking-[0.2em] text-blue-300">Your report</p>
-          <h3 className="mt-2 text-2xl font-semibold text-white">What you’ll get</h3>
-          <div className="mt-8 space-y-7">
-            {analysisBenefits.map((benefit) => (
-              <div key={benefit.title} className="flex gap-4">
-                <span className={`grid size-11 shrink-0 place-items-center rounded-2xl text-xl ${benefit.style}`} aria-hidden="true">{benefit.icon}</span>
-                <div><h4 className="font-semibold text-slate-100">{benefit.title}</h4><p className="mt-1 text-sm leading-6 text-slate-500">{benefit.description}</p></div>
-              </div>
-            ))}
-          </div>
-          <div className="mt-9 border-t border-white/[0.07] pt-6">
-            <p className="flex items-center gap-3 text-sm font-medium text-slate-400"><span className="grid size-8 place-items-center rounded-xl bg-cyan-400/10 text-cyan-300" aria-hidden="true">♢</span>100% private and secure</p>
-            <p className="mt-3 text-xs leading-5 text-slate-600">Your PDF is analyzed in memory and is not permanently stored.</p>
-          </div>
-        </aside>
       </div>
     </section>
   )

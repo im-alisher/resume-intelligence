@@ -206,8 +206,6 @@ export function ResumeBuilderPage() {
                       title: `ATS readiness: ${result.estimatedScore}/100`,
                       content: result.recommendations,
                       note: `Suggested keywords: ${result.keywords.join(', ') || 'None'}`,
-                      applyLabel: 'Add keywords to skills',
-                      apply: () => update('skills', unique([...form.skills, ...result.keywords])),
                     })
                   })
                 }
@@ -236,11 +234,19 @@ export function ResumeBuilderPage() {
           </EditorSection>
 
           {suggestion && (
-            <section className="rounded-2xl border border-violet-400/30 bg-violet-400/10 p-5">
+            <section
+              role="dialog"
+              aria-modal="false"
+              aria-labelledby="ai-suggestion-title"
+              className="fixed inset-x-4 bottom-4 z-40 max-h-[min(70vh,38rem)] overflow-y-auto rounded-2xl border border-violet-400/40 bg-slate-900/95 p-5 shadow-2xl shadow-black/50 backdrop-blur-xl sm:left-auto sm:right-6 sm:w-[min(30rem,calc(100vw-3rem))]"
+            >
               <div className="flex items-start justify-between gap-4">
-                <h2 className="text-lg font-semibold text-violet-100">{suggestion.title}</h2>
-                <button onClick={() => setSuggestion(null)} className="text-sm text-violet-300">
-                  Dismiss
+                <div>
+                  <p className="text-xs font-bold uppercase tracking-[0.16em] text-violet-300">AI suggestion ready</p>
+                  <h2 id="ai-suggestion-title" className="mt-1 text-lg font-semibold text-violet-100">{suggestion.title}</h2>
+                </div>
+                <button type="button" onClick={() => setSuggestion(null)} className="rounded-lg px-2 py-1 text-sm text-violet-300 hover:bg-violet-400/10" aria-label="Dismiss AI suggestion">
+                  ×
                 </button>
               </div>
               {suggestion.note && <p className="mt-3 text-sm leading-6 text-violet-200">{suggestion.note}</p>}
@@ -250,7 +256,7 @@ export function ResumeBuilderPage() {
                 ))}
               </ul>
               {suggestion.apply && (
-                <button onClick={applySuggestion} className="mt-4 rounded-lg bg-violet-300 px-4 py-2 text-sm font-semibold text-violet-950 hover:bg-violet-200">
+                <button type="button" onClick={applySuggestion} className="mt-4 w-full rounded-lg bg-violet-300 px-4 py-2.5 text-sm font-semibold text-violet-950 hover:bg-violet-200">
                   {suggestion.applyLabel ?? 'Apply suggestion'}
                 </button>
               )}

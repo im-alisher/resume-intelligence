@@ -1,0 +1,2 @@
+ALTER TABLE "Resume"
+ADD COLUMN "customSections" JSONB NOT NULL DEFAULT '[]';

@@ -34,6 +34,12 @@ export function deleteResume(token: string, id: string) {
   return apiRequest<void>(`/resumes/${id}`, { method: 'DELETE' }, token)
 }
 
+export async function importResume(token: string, file: File): Promise<ResumeForm> {
+  const body = new FormData()
+  body.append('resume', file)
+  return apiRequest<ResumeForm>('/resumes/import', { method: 'POST', body }, token)
+}
+
 export async function downloadResumePdf(
   token: string,
   id: string,
@@ -108,6 +114,12 @@ function toApiResume(input: ResumeForm) {
       issueDate: toApiDate(item.issueDate),
       expirationDate: toApiDate(item.expirationDate),
     })),
+    customSections: input.customSections.map((section, order) => ({
+      ...section,
+      title: section.title.trim(),
+      items: section.items.map((item) => item.trim()).filter(Boolean),
+      order,
+    })),
   }
 }
 
@@ -135,6 +147,10 @@ function fromApiResume(resume: ApiResume): Resume {
       credentialUrl: item.credentialUrl ?? '',
       issueDate: toMonth(item.issueDate),
       expirationDate: toMonth(item.expirationDate),
+    })),
+    customSections: (resume.customSections ?? []).map((section, order) => ({
+      ...section,
+      order,
     })),
   }
 }

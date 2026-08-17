@@ -85,6 +85,12 @@ export class ResumesService {
       personalInfo: input.personalInfo as unknown as Prisma.InputJsonValue,
       summary: input.summary?.trim() || null,
       skills: cleanList(input.skills),
+      customSections: input.customSections.map((section, order) => ({
+        id: section.id,
+        title: section.title.trim(),
+        items: cleanList(section.items),
+        order,
+      })) as unknown as Prisma.InputJsonValue,
       experiences: {
         create: input.experiences.map((item, sortOrder) => ({
           company: item.company.trim(),

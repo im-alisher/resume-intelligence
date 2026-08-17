@@ -910,9 +910,6 @@ function splitLines(value: string) {
     .map((item) => item.trim())
     .filter(Boolean)
 }
-function unique(items: string[]) {
-  return [...new Set(items.map((item) => item.trim()).filter(Boolean))]
-}
 function formatMonth(value?: string) {
   if (!value) return ''
   const [year, month] = value.split('-')

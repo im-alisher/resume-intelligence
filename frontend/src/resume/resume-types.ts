@@ -42,6 +42,13 @@ export interface CertificationItem {
   credentialUrl?: string
 }
 
+export interface CustomSection {
+  id: string
+  title: string
+  items: string[]
+  order: number
+}
+
 export interface ResumeForm {
   title: string
   personalInfo: PersonalInfo
@@ -51,6 +58,7 @@ export interface ResumeForm {
   education: EducationItem[]
   projects: ProjectItem[]
   certifications: CertificationItem[]
+  customSections: CustomSection[]
 }
 
 export interface Resume extends ResumeForm {

@@ -134,6 +134,17 @@ export class ResumePdfService {
         document.moveDown(0.25);
       }
     }
+    for (const section of asCustomSections(resume.customSections)) {
+      if (!section.title || !section.items.length) continue;
+      this.section(document, section.title);
+      for (const item of section.items) {
+        document
+          .font('Helvetica')
+          .fontSize(9)
+          .fillColor('#334155')
+          .text(`•  ${item}`, { indent: 8, paragraphGap: 2 });
+      }
+    }
 
     document.end();
     return completed;
@@ -215,4 +226,20 @@ function formatDate(value: Date | null): string {
     year: 'numeric',
     timeZone: 'UTC',
   }).format(value);
+}
+
+function asCustomSections(
+  value: unknown,
+): Array<{ title: string; items: string[] }> {
+  if (!Array.isArray(value)) return [];
+  return value.filter(
+    (section): section is { title: string; items: string[] } =>
+      typeof section === 'object' &&
+      section !== null &&
+      'title' in section &&
+      typeof section.title === 'string' &&
+      'items' in section &&
+      Array.isArray(section.items) &&
+      section.items.every((item) => typeof item === 'string'),
+  );
 }

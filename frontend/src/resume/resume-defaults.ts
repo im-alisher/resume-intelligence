@@ -22,6 +22,7 @@ export function createBlankResume(user: User): ResumeForm {
     education: [],
     projects: [],
     certifications: [],
+    customSections: [],
   }
 }
 

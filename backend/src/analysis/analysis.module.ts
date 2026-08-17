@@ -8,5 +8,6 @@ import { PdfTextService } from './pdf-text.service';
   imports: [AiModule],
   controllers: [AnalysisController],
   providers: [AnalysisService, PdfTextService],
+  exports: [PdfTextService],
 })
 export class AnalysisModule {}

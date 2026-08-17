@@ -5,12 +5,33 @@ import {
   IsBoolean,
   IsDateString,
   IsEmail,
+  IsInt,
   IsOptional,
   IsString,
   IsUrl,
   MaxLength,
+  Min,
   ValidateNested,
 } from 'class-validator';
+
+export class CustomSectionDto {
+  @IsString()
+  @MaxLength(80)
+  id!: string;
+
+  @IsString()
+  @MaxLength(120)
+  title!: string;
+
+  @IsArray()
+  @IsString({ each: true })
+  items!: string[];
+
+  @IsOptional()
+  @IsInt()
+  @Min(0)
+  order?: number;
+}
 
 export class PersonalInfoDto {
   @IsString()
@@ -170,4 +191,9 @@ export class ResumeSectionsDto {
   @ValidateNested({ each: true })
   @Type(() => CertificationDto)
   certifications!: CertificationDto[];
+
+  @IsArray()
+  @ValidateNested({ each: true })
+  @Type(() => CustomSectionDto)
+  customSections!: CustomSectionDto[];
 }

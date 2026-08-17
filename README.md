@@ -5,11 +5,32 @@ Resume Intelligence is a full-stack SaaS application for analyzing, improving, b
 ## Features
 
 - Public PDF resume analysis with ATS scoring, skill gaps, strengths, weaknesses, and recommendations
+- AI-powered PDF import that converts an existing resume into editable builder data
 - JWT registration and login
-- Authenticated resume CRUD with a responsive editor and real-time preview
+- Authenticated resume CRUD with collapsible sections, custom sections, reordering, and a real-time preview
 - AI-assisted summaries, experience bullets, skills, descriptions, and ATS reviews
 - Secure A4 PDF generation and download
 - Strict request validation, structured error responses, rate limiting, security headers, health checks, and OpenAPI documentation
+
+## Product tour
+
+### Landing page and primary workflows
+
+The landing page directs visitors to either the public resume analyzer or the authenticated resume builder while explaining the product's privacy and AI-assisted workflow.
+
+![Resume Intelligence landing page](docs/screenshots/landing-page.png)
+
+### Structured resume analysis
+
+The sample report demonstrates overall and ATS scores, detected strengths, skill gaps, and prioritized actions before a user uploads their own resume.
+
+![Resume performance report](docs/screenshots/sample-analysis.png)
+
+### PDF analyzer
+
+The public analyzer accepts a PDF up to 5 MB and an optional job description, then produces role-aware resume feedback without requiring an account.
+
+![PDF resume analyzer](docs/screenshots/resume-analyzer.png)
 
 ## Technology
 
@@ -82,6 +103,9 @@ Development URLs:
 | `JWT_SECRET` | JWT signing secret, minimum 32 characters | random secret |
 | `GROQ_API_KEY` | Server-only Groq credential | provider API key |
 | `GROQ_MODEL` | Groq model identifier | `openai/gpt-oss-120b` |
+| `RESEND_API_KEY` | Server-only Resend credential for password-reset email | provider API key |
+| `EMAIL_FROM` | Verified password-reset sender | `Resume Intelligence <no-reply@example.com>` |
+| `PASSWORD_RESET_EXPIRY_MINUTES` | Password-reset link lifetime | `30` |
 | `VITE_API_URL` | Public frontend API base URL | `http://localhost:3000/api` |
 
 Frontend variables are embedded at build time and must never contain secrets. Rotate any credential that has been pasted into chat, logs, or committed history.
@@ -104,6 +128,7 @@ All routes use the `/api` prefix. Protected routes require `Authorization: Beare
 - `GET /health` - API and database readiness
 - `POST /auth/register`, `POST /auth/login`, `GET /auth/me`
 - `POST /analysis/resume` - public multipart PDF analysis; field `resume`, optional `jobDescription`, 5 MB limit
+- `POST /resumes/import` - authenticated multipart PDF import returned as editable structured resume data
 - `GET|POST /resumes`, `GET|PUT|DELETE /resumes/:id`
 - `POST /resumes/:id/improvements/{summary|experience|skills|ats|description}`
 - `GET /resumes/:id/export/pdf`
@@ -150,7 +175,7 @@ Do not use development defaults in production. Do not expose PostgreSQL publicly
 - Uploaded PDFs are processed in memory and raw files are not persisted.
 - Helmet security headers, CORS allowlisting, strict DTO validation, and global rate limiting are enabled.
 
-The production dependency audit currently reports an upstream React Router RSC advisory. Resume Intelligence uses React Router only as a browser SPA and does not enable React Server Components, server actions, or React Router framework mode, so the affected execution path is absent. Keep React Router current and remove this exception when an unaffected compatible release is published.
+The production dependency audit currently reports an upstream `deepmerge-ts` advisory through Prisma's configuration tooling. Resume Intelligence does not merge user-controlled recursive objects through Prisma configuration, and the affected package is not part of an HTTP request path. Prisma 7.9.1 is currently the latest compatible release and still pins the affected dependency; keep Prisma current and remove this exception when a patched compatible release is published.
 
 ## Development phases
 
